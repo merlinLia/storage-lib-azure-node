@@ -1,5 +1,5 @@
 {
-  "name": "@wijkjh/storage-lib-node",
+  "name": "@qss/storage-lib-node",
   "version": "0.1.1",
   "description": "Utility library for working with Azure Storage",
   "main": "index.js",

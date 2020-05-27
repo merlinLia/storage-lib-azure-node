@@ -7,8 +7,11 @@ See more information the [Azure documentation](https://docs.microsoft.com/en-us/
 ## Requirements
 - Visual Studio Code
 - NodeJS 12.x
+- Access to a NPM registry like Azure Artifacts
 
 ## Environment setup
+- When adding this NPM package to your own Azure DevOps Artifacts feed follow the instructions as given in your instance of Azure DevOps to connect to the feed.
+- This package has a prefix (@qss) set for the NPM package to make it unique and prevent conflicts with similar package names. 
 - Run `npm install` to install the dependencies. Or `npm update` to update the existing npm module versions to the latest patch version.
 
 # Unittests
