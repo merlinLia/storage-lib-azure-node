@@ -29,11 +29,11 @@ class BlobContainer {
     try {
       if (this.accountName && this.accountKey) {
         this.sharedKeyCredential = new StorageSharedKeyCredential(this.accountName, this.accountKey)
-        this.blobServiceClient = new BlobServiceClient(`https://${this.accountName}.blob.core.windows.net`,
+        this.client = new BlobServiceClient(`https://${this.accountName}.blob.core.windows.net`,
           this.sharedKeyCredential
         )
       } else if (this.accountName && this.sasToken) {
-        this.blobServiceClient = new BlobServiceClient(`https://${this.accountName}.blob.core.windows.net?${this.sasToken}`)
+        this.client = new BlobServiceClient(`https://${this.accountName}.blob.core.windows.net?${this.sasToken}`)
       } else {
         throw new StorageError(401, 'Missing authentication')
       }
@@ -52,7 +52,7 @@ class BlobContainer {
    */
   async createContainer ({ containerName }) {
     try {
-      const containerClient = this.blobServiceClient.getContainerClient(containerName)
+      const containerClient = this.client.getContainerClient(containerName)
       const createContainerResponse = await containerClient.create()
       logger.info(`Create container ${containerName} successfully`, createContainerResponse.requestId)
       return createContainerResponse.requestId
@@ -70,7 +70,7 @@ class BlobContainer {
   async listContainers () {
     try {
       const containers = []
-      const iter = await this.blobServiceClient.listContainers()
+      const iter = await this.client.listContainers()
       for await (const container of iter) {
         containers.push(container.name)
       }
@@ -92,7 +92,7 @@ class BlobContainer {
    */
   async createBlob ({ containerName, blobName, content }) {
     try {
-      const containerClient = this.blobServiceClient.getContainerClient(containerName)
+      const containerClient = this.client.getContainerClient(containerName)
       const blockBlobClient = containerClient.getBlockBlobClient(blobName)
       const uploadBlobResponse = await blockBlobClient.upload(content, Buffer.byteLength(content))
       logger.info(`Upload block blob ${blobName} successfully`, uploadBlobResponse.requestId)
@@ -113,7 +113,7 @@ class BlobContainer {
   async listBlobs ({ containerName }) {
     const bloblist = []
     try {
-      const containerClient = this.blobServiceClient.getContainerClient(containerName)
+      const containerClient = this.client.getContainerClient(containerName)
       for await (const blob of containerClient.listBlobsFlat()) {
         bloblist.push(blob)
       }
@@ -136,7 +136,7 @@ class BlobContainer {
     // Get blob content from position 0 to the end
     // In Node.js, get downloaded data by accessing downloadBlockBlobResponse.readableStreamBody
     try {
-      const containerClient = this.blobServiceClient.getContainerClient(containerName)
+      const containerClient = this.client.getContainerClient(containerName)
       const blockBlobClient = containerClient.getBlockBlobClient(blobName)
       const downloadBlockBlobResponse = await blockBlobClient.download(0)
       const content = await streamToString(downloadBlockBlobResponse.readableStreamBody)
@@ -156,7 +156,7 @@ class BlobContainer {
    */
   async deleteContainer ({ containerName }) {
     try {
-      const containerClient = this.blobServiceClient.getContainerClient(containerName)
+      const containerClient = this.client.getContainerClient(containerName)
       await containerClient.delete()
       return true
     } catch (error) {
@@ -175,7 +175,7 @@ class BlobContainer {
    */
   async deleteBlob ({ containerName, blobName }) {
     try {
-      const containerClient = this.blobServiceClient.getContainerClient(containerName)
+      const containerClient = this.client.getContainerClient(containerName)
       const blockBlobClient = containerClient.getBlockBlobClient(blobName)
       await blockBlobClient.delete()
       return true
