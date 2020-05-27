@@ -84,3 +84,52 @@ describe('List queues', () => {
     }
   })
 })
+
+describe('Add messages to queue', () => {
+  const queueName = `test${new Date().getTime()}`
+
+  beforeAll(async () => {
+    try {
+      const queue = new StorageQueue({
+        accountName: config.storageAccountName,
+        accountKey: config.storageAccountKey
+      })
+      await queue.create({ queueName: queueName })
+      await queue.create({
+        queueName: queueName
+      })
+    } catch (error) {
+      console.error(error.message)
+    }
+  })
+
+  afterAll(async () => {
+    try {
+      const queue = new StorageQueue({
+        accountName: config.storageAccountName,
+        accountKey: config.storageAccountKey
+      })
+      await queue.delete({ queueName: queueName })
+    } catch (error) {
+      console.error(error)
+    }
+  })
+
+  it('should add a message to the queue', async () => {
+    try {
+      const queue = new StorageQueue({
+        accountName: config.storageAccountName,
+        accountKey: config.storageAccountKey
+      })
+      const message = await queue.sendMessage({
+        queueName: queueName,
+        message: JSON.stringify({ action: 'STOP' })
+      })
+      expect.assertions(2)
+      expect(message.messageId).toBeDefined()
+      expect(message.requestId).toBeDefined()
+    } catch (error) {
+      console.error(error)
+    }
+  })
+})

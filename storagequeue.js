@@ -116,6 +116,8 @@ class StorageQueue {
    * @param {object} params - Inputparameters
    * @param {string} params.queueName - Name of the storage queue
    * @param {string} params.message - The message to send
+   *                                  The message content is up to 64KB in size, and must be in a format that can be included in an XML request with UTF-8 encoding.
+   *                                  To include markup in the message, the contents of the message must either be XML-escaped or Base64-encode.
    * @param {number} [params.timeToLive] - (optional) Specifies the time-to-live interval for the message, in seconds
    * @param {number} [params.visibilityTimeout] - (optional) Specifies the visibility timeout value, in seconds, relative to server time. The
    *                                              default value is 30 seconds. A specified value must be larger than or equal to 1 second, and
