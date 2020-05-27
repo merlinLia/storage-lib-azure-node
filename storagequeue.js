@@ -116,13 +116,20 @@ class StorageQueue {
    * @param {object} params - Inputparameters
    * @param {string} params.queueName - Name of the storage queue
    * @param {string} params.message - The message to send
+   * @param {number} [params.timeToLive] - (optional) Specifies the time-to-live interval for the message, in seconds
+   * @param {number} [params.visibilityTimeout] - (optional) Specifies the visibility timeout value, in seconds, relative to server time. The
+   *                                              default value is 30 seconds. A specified value must be larger than or equal to 1 second, and
+   *                                              cannot be larger than 7 days.
    * @returns {sendMessageResponse}
    * @memberof StorageQueue
    */
-  async sendMessage ({ queueName, message }) {
+  async sendMessage ({ queueName, message, timeToLive = null, visibilityTimeout = null }) {
     try {
       const queueClient = this.client.getQueueClient(queueName)
-      const response = await queueClient.sendMessage(message)
+      const options = {}
+      if (timeToLive) options.messageTimeToLive = timeToLive
+      if (visibilityTimeout) options.visibilityTimeout = visibilityTimeout
+      const response = await queueClient.sendMessage(message, options)
       return {
         messageId: response.messageId,
         requestId: response.requestId
