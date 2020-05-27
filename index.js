@@ -2,5 +2,6 @@
 // Licensed under the MIT License.
 
 const { BlobContainer } = require('./blobcontainer')
+const { StorageQueue } = require('./storagequeue')
 
-module.exports = { BlobContainer }
+module.exports = { BlobContainer, StorageQueue }

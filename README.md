@@ -21,5 +21,6 @@ Run `npm test` to run the unittests locally. It will also create the code covera
 
 | Version | Date       | Notes |
 |---------|------------|-------|
+| 0.2.0   | 2020-05-27 | Add StorageQueue |
 | 0.1.1   | 2020-05-22 | Add generate SAS token for container and blob |
 | 0.1.0   | 2020-05-19 | Initial implementation |
