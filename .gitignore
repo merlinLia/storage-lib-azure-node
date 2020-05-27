@@ -1,0 +1,7 @@
+node_modules
+.npmrc
+coverage
+out
+.nyc_output
+junit.xml
+.env
