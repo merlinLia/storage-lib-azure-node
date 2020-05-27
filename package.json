@@ -1,0 +1,44 @@
+{
+  "name": "@wijkjh/storage-lib-node",
+  "version": "0.1.1",
+  "description": "Utility library for working with Azure Storage",
+  "main": "index.js",
+  "scripts": {
+    "pretest": "npx eslint --fix *.js",
+    "test": "npx jest --ci --reporters=default --reporters=jest-junit --detectOpenHandles",
+    "doc": "jsdoc -c jsdoc.json index.js eventtopic.js"
+  },
+  "jest": {
+    "verbose": true,
+    "collectCoverage": true,
+    "reporters": [
+      "default",
+      "jest-junit"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wijkjh/storage-lib-azure-node"
+  },
+  "author": "Henk Jan van Wijk",
+  "license": "MIT",
+  "dependencies": {
+    "@azure/storage-blob": "^12.1.1",
+    "dotenv": "^8.2.0",
+    "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-jest": "23.7.0",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "jest": "^25.1.0",
+    "jest-junit": "^10.0.0"
+  },
+  "directories": {
+    "test": "test"
+  }
+}
